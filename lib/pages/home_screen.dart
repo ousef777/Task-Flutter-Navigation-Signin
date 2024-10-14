@@ -55,14 +55,17 @@ class HomeScreen extends StatelessWidget {
           ElevatedButton(
             style: ButtonStyle(
               backgroundColor:
-                  MaterialStateProperty.all<Color>(Colors.deepPurpleAccent),
+                  WidgetStateProperty.all<Color>(Colors.deepPurpleAccent),
             ),
             onPressed: () {
               // Step 8
+              if (passwordController.text == "12345") {
+                GoRouter.of(context).go('/signed_in', extra: usernameController.text); //switched from .push() to .go()
+              }
             },
             child: const Padding(
               padding: EdgeInsets.all(8.0),
-              child: Text("Login"),
+              child: Text("Login", style: TextStyle(color: Colors.white),),
             ),
           )
         ],

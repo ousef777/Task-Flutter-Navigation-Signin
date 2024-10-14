@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final usernameController = TextEditingController();
+
   final passwordController = TextEditingController();
+
+  Color usernameBorderColor = Colors.deepPurpleAccent;
+  Color passwordBorderColor = Colors.deepPurpleAccent;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,36 +29,36 @@ class HomeScreen extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: TextField(
               controller: usernameController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: "Username",
                 prefixIcon: Icon(
                   Icons.account_circle,
-                  color: Colors.deepPurpleAccent,
+                  color: usernameBorderColor,
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                  borderRadius: const BorderRadius.all(Radius.circular(20.0)),
                   borderSide: BorderSide(
-                    color: Colors.deepPurpleAccent,
+                    color: usernameBorderColor,
                   ),
                 ),
               ),
-            ),
+            )
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: TextField(
               controller: passwordController,
               obscureText: true,   //hide the text
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: "Password",
                 prefixIcon: Icon(
                   Icons.key,
-                  color: Colors.deepPurpleAccent,
+                  color: passwordBorderColor,
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                  borderRadius: const BorderRadius.all(Radius.circular(20.0)),
                   borderSide: BorderSide(
-                    color: Colors.deepPurpleAccent,
+                    color: passwordBorderColor,
                   ),
                 ),
               ),
@@ -62,12 +73,19 @@ class HomeScreen extends StatelessWidget {
               // Step 8
               if (usernameController.text.isEmpty) {
                 showError(context, "Enter the Username");
+                setState(() {
+                  usernameBorderColor = Colors.red;
+                });
               }
               else if (passwordController.text == "12345") {
                 GoRouter.of(context).go('/signed_in', extra: usernameController.text); //switched from .push() to .go()
               }
               else {
                 showError(context, "Wrong Password");
+                setState(() {
+                  usernameBorderColor = Colors.deepPurpleAccent;
+                  passwordBorderColor = Colors.red;
+                });
               }
             },
             child: const Padding(

@@ -37,6 +37,7 @@ class HomeScreen extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: TextField(
               controller: passwordController,
+              obscureText: true,   //hide the text
               decoration: const InputDecoration(
                 hintText: "Password",
                 prefixIcon: Icon(
@@ -59,8 +60,14 @@ class HomeScreen extends StatelessWidget {
             ),
             onPressed: () {
               // Step 8
-              if (passwordController.text == "12345") {
+              if (usernameController.text.isEmpty) {
+                showError(context, "Enter the Username");
+              }
+              else if (passwordController.text == "12345") {
                 GoRouter.of(context).go('/signed_in', extra: usernameController.text); //switched from .push() to .go()
+              }
+              else {
+                showError(context, "Wrong Password");
               }
             },
             child: const Padding(
@@ -72,4 +79,13 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+void showError(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      duration: const Duration(seconds: 5),
+      content: Text(message),
+    )
+  );
 }
